@@ -97,6 +97,20 @@ export default function SettingsPage() {
             <p className="text-xs text-gray-400 mt-1">ใช้คำนวณราคาขายวัวโดยประมาณ</p>
           </div>
 
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">💬 LINE Notify Token</label>
+            <input
+              type="text"
+              value={settings.lineToken || ''}
+              onChange={(e) => setSettings({ ...settings, lineToken: e.target.value })}
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-green-400"
+              placeholder="ใส่ LINE Notify Token เพื่อรับแจ้งเตือน"
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              รับ Token ได้ที่ <a href="https://notify-bot.line.me/" target="_blank" rel="noopener noreferrer" className="text-green-600 underline">LINE Notify</a> เพื่อส่งแจ้งเตือนการเงินและสุขภาพเข้า LINE
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-xs text-gray-500 mb-1">👑 PIN เจ้าของ (4 หลัก)</label>

@@ -79,10 +79,6 @@ export function PinGate({ children }: { children: React.ReactNode }) {
           <p className="text-red-500 text-sm mt-2">{error}</p>
         )}
 
-        <p className="text-xs text-gray-400 mt-5 leading-relaxed">
-          PIN เจ้าของ → เข้าถึงทุกข้อมูล<br />
-          PIN คนดูแลวัว → บันทึกข้อมูลวัวได้
-        </p>
       </div>
     </div>
   );

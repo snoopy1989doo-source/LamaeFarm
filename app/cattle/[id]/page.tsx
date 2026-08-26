@@ -44,6 +44,22 @@ export default function CattleDetailPage() {
     operator: '',
     nextDueDate: '',
   });
+  const [scheduleTemplate, setScheduleTemplate] = useState('none');
+
+  // Auto-schedule effect
+  useEffect(() => {
+    if (!hForm.date) return;
+    const baseDate = new Date(hForm.date);
+    if (scheduleTemplate === '6months') {
+      baseDate.setMonth(baseDate.getMonth() + 6);
+      setHForm(prev => ({ ...prev, nextDueDate: baseDate.toISOString().slice(0, 10) }));
+    } else if (scheduleTemplate === '12months') {
+      baseDate.setFullYear(baseDate.getFullYear() + 1);
+      setHForm(prev => ({ ...prev, nextDueDate: baseDate.toISOString().slice(0, 10) }));
+    } else if (scheduleTemplate === 'none') {
+      setHForm(prev => ({ ...prev, nextDueDate: '' }));
+    }
+  }, [hForm.date, scheduleTemplate]);
 
   // Weight form
   const [wForm, setWForm] = useState({ date: new Date().toISOString().slice(0, 10), chestCm: '', bodyLengthCm: '' });
@@ -289,10 +305,32 @@ export default function CattleDetailPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs text-gray-500 mb-1">วันนัดครั้งต่อไป</label>
-                <input type="date" value={hForm.nextDueDate} onChange={(e) => setHForm({ ...hForm, nextDueDate: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-green-400" />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">📅 รอบนัดหมายครั้งต่อไป</label>
+                  <select
+                    value={scheduleTemplate}
+                    onChange={(e) => setScheduleTemplate(e.target.value)}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-green-400"
+                  >
+                    <option value="none">ไม่นัดหมาย</option>
+                    <option value="6months">อีก 6 เดือน (ถ่ายพยาธิ / FMD)</option>
+                    <option value="12months">อีก 1 ปี (LSD / คอบวม)</option>
+                    <option value="custom">กำหนดวันเอง</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">วันนัดครั้งต่อไป</label>
+                  <input
+                    type="date"
+                    value={hForm.nextDueDate}
+                    onChange={(e) => {
+                      setHForm({ ...hForm, nextDueDate: e.target.value });
+                      setScheduleTemplate('custom');
+                    }}
+                    className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-green-400"
+                  />
+                </div>
               </div>
 
               <div className="flex gap-2">

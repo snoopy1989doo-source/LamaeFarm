@@ -81,6 +81,10 @@ export interface FinanceRecord {
   amount: number;
   cattleId?: string;
   notes?: string;
+  status: 'อนุมัติแล้ว' | 'รออนุมัติ' | 'ปฏิเสธ';
+  rejectReason?: string;
+  createdTimestamp: string;
+  image?: string; // base64 receipt photo
 }
 
 export interface AppSettings {
@@ -88,6 +92,7 @@ export interface AppSettings {
   workerPin: string;
   defaultPricePerKg: number;
   farmName: string;
+  lineToken?: string;
 }
 
 export interface AppData {

@@ -8,7 +8,7 @@ const navItems = [
   { href: '/', label: 'หน้าหลัก', icon: '🏠' },
   { href: '/cattle', label: 'วัว', icon: '🐂' },
   { href: '/calendar', label: 'ปฏิทิน', icon: '📅' },
-  { href: '/finance', label: 'บัญชี', icon: '💰', ownerOnly: true },
+  { href: '/finance', label: 'บัญชี', icon: '💰', ownerOnly: false },
   { href: '/settings', label: 'ตั้งค่า', icon: '⚙️' },
 ];
 

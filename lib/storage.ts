@@ -126,10 +126,13 @@ export function getFinanceSummary(month?: string) {
   if (month) {
     records = records.filter((r) => r.date.startsWith(month));
   }
-  const totalIncome = records
+  // Only count records that are approved (or legacy records without a status)
+  const approvedRecords = records.filter((r) => !r.status || r.status === 'อนุมัติแล้ว');
+
+  const totalIncome = approvedRecords
     .filter((r) => r.type === 'รายรับ')
     .reduce((sum, r) => sum + r.amount, 0);
-  const totalExpense = records
+  const totalExpense = approvedRecords
     .filter((r) => r.type === 'รายจ่าย')
     .reduce((sum, r) => sum + r.amount, 0);
   return {
@@ -137,6 +140,27 @@ export function getFinanceSummary(month?: string) {
     totalExpense,
     netProfit: totalIncome - totalExpense,
   };
+}
+
+export async function sendLineNotify(message: string, imageBase64?: string): Promise<boolean> {
+  try {
+    const settings = getSettings();
+    if (!settings.lineToken) return false;
+    const response = await fetch('/api/notify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message,
+        token: settings.lineToken,
+        imageBase64,
+      }),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export interface UpcomingVaccine {
